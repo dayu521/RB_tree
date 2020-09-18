@@ -48,7 +48,7 @@ void TD_RBtree::rotate_with_right(TD_RBtree::Node *&root_)
 void TD_RBtree::rotate_color_fix(I_Container c_)
 {
     auto &[x,xp,xpp]=c_;
-            if(xp->color==Color::Red){
+    if(xp->color==Color::Red){
         if(xpp->left_chl==xp){
             if(xp->left_chl!=x)
                 rotate_with_right(xp);
@@ -68,7 +68,7 @@ void TD_RBtree::rotate_color_fix(I_Container c_)
 void TD_RBtree::insert(TD_RBtree::I_Container c_, int data_)
 {
     auto &[x,xp,xpp]=c_;
-            if(x==null_node){
+     if(x==null_node){
         x=new Node{data_,null_node,null_node};
         if(x!=fake_root->right_chl)
             rotate_color_fix(c_);

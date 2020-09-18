@@ -1,15 +1,15 @@
 #ifndef RBDATA_H
 #define RBDATA_H
 
-//down-top RB tree
+//bottom-up RB tree
 //算法来自算法导论
 //自底向上.完全按照算法导论的伪码形式来实现的
 
-class DT_RBtree
+class BU_RBtree
 {
 public:
-    DT_RBtree();
-    ~DT_RBtree();
+    BU_RBtree();
+    ~BU_RBtree();
     void insert(int );
     void remove(int );
     void print() const;

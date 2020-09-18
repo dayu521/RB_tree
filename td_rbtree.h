@@ -7,6 +7,9 @@
 //算法来自<数据结构与算法分析c++描述>
 //插入和删除都是使用递归来做的,因此更容易理解些
 //特别是删除的实现,感觉代码非常古怪,还有一个我非常不喜欢想把它换掉的地方.
+//Especially the implementation of deletion, I feel that the code is very strange, and there is a place I don't like very much and want to change it
+
+//Hello everyone, I have implement the red black tree recently, but I think there are some mistakes. I hope you people can give some advice
 
 class TD_RBtree
 {

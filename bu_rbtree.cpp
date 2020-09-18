@@ -1,20 +1,20 @@
-#include "dt_rbtree.h"
+#include "bu_rbtree.h"
 #include<iostream>
 
-DT_RBtree::DT_RBtree()
+BU_RBtree::BU_RBtree()
 {
     root=NIL=new Node<int>(-9998);
     NIL->color=Black;
     NIL->parent=NIL->left=NIL->right=NIL;
 }
 
-DT_RBtree::~DT_RBtree()
+BU_RBtree::~BU_RBtree()
 {
     emptyTree(root);
     delete NIL;
 }
 
-void DT_RBtree::emptyTree(Node<int> *&root)
+void BU_RBtree::emptyTree(Node<int> *&root)
 {
     if(root!=NIL)
     {
@@ -25,7 +25,7 @@ void DT_RBtree::emptyTree(Node<int> *&root)
     }
 }
 
-void DT_RBtree::rotationWithLeftChild(Node<int> *&root)
+void BU_RBtree::rotationWithLeftChild(Node<int> *&root)
 {
     Node<int> *left_child = root->left;
 
@@ -39,7 +39,7 @@ void DT_RBtree::rotationWithLeftChild(Node<int> *&root)
     root = left_child;
 }
 
-void DT_RBtree::rotationWithRightChild(Node<int> *&root)
+void BU_RBtree::rotationWithRightChild(Node<int> *&root)
 {
     Node<int> *right_child = root->right;
 
@@ -53,7 +53,7 @@ void DT_RBtree::rotationWithRightChild(Node<int> *&root)
     root = right_child;
 }
 
-void DT_RBtree::insert(int x)
+void BU_RBtree::insert(int x)
 {
     auto temp=root;
     //红黑树在调整时,其哨兵节点NIL的父节点在旋转过程中会改变,因此,在树进行一轮清空后,
@@ -88,7 +88,7 @@ void DT_RBtree::insert(int x)
     return ;
 }
 
-void DT_RBtree::insertionFixUpOfDoubleRed(Node<int> *root)
+void BU_RBtree::insertionFixUpOfDoubleRed(Node<int> *root)
 {
     while (root->parent->color == Red) {
         if (root->parent == root->parent->parent->left) {
@@ -130,7 +130,7 @@ void DT_RBtree::insertionFixUpOfDoubleRed(Node<int> *root)
     this->root->color = Black;
 }
 
-void DT_RBtree::remove(int v)
+void BU_RBtree::remove(int v)
 {
     auto temp=root;
     while (temp!=NIL) {
@@ -166,7 +166,8 @@ void DT_RBtree::remove(int v)
         if(y->parent==temp)
             x->parent=y;//算法导论中这几行没看明白,暂时把形式保存在这里好了.
         //喔,调试源码偶然发现了,这一步当x为哨兵节点是很重要,因为哨兵节点也参与之后调整过程
-        //向上回溯时,需要赋值root=root.parent.哨兵节点父节点每次都会变化,所以这里必须强制更新
+        //向上回溯时,需要赋值x=x.parent.哨兵节点父节点每次都会变化,所以这里必须强制更新
+        //以防之后修复时，NIL节点的父节点指向其他节点.
         //这里虽然采用删除方式不同,但还是保留了算法导论中的结构
         else {
             ;
@@ -179,12 +180,12 @@ void DT_RBtree::remove(int v)
         removeFixUpOfLostOfBlack(x);
 }
 
-void DT_RBtree::print() const
+void BU_RBtree::print() const
 {
    print(root);
 }
 
-void DT_RBtree::removeFixUpOfLostOfBlack(Node<int> *root)
+void BU_RBtree::removeFixUpOfLostOfBlack(Node<int> *root)
 {
     while (root->color == Black && root != this->root) {
         Node<int> *root_brother = nullptr;
@@ -247,7 +248,7 @@ void DT_RBtree::removeFixUpOfLostOfBlack(Node<int> *root)
     root->color = Black;
 }
 
-void DT_RBtree::replace(Node<int> *y, Node<int> *x)
+void BU_RBtree::replace(Node<int> *y, Node<int> *x)
 {
     if(y==root)
         root=x;
@@ -258,7 +259,7 @@ void DT_RBtree::replace(Node<int> *y, Node<int> *x)
     x->parent=y->parent;
 }
 
-DT_RBtree::Node<int> *DT_RBtree::findMinValueNode(const Node<int> *root)
+BU_RBtree::Node<int> *BU_RBtree::findMinValueNode(const Node<int> *root)
 {
     auto temp=root;
     while (temp->left!=NIL) {
@@ -267,7 +268,7 @@ DT_RBtree::Node<int> *DT_RBtree::findMinValueNode(const Node<int> *root)
     return const_cast<Node<int> *>(temp);
 }
 
-void DT_RBtree::print(Node<int> * const &root_) const
+void BU_RBtree::print(Node<int> * const &root_) const
 {
     if(root_!=NIL){
         print(root_->left);

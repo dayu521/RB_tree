@@ -9,14 +9,14 @@
 #include <netinet/in.h>
 
 #include "td_rbtree.h"
-#include "dt_rbtree.h"
+#include "bu_rbtree.h"
 
 using namespace std;
 
 int main()
 {
     TD_RBtree t1;
-    DT_RBtree t2;
+    BU_RBtree t2;
 //    int k[]={5,4,3,6,1};
     auto test=[](auto & tree){
         int k[]={10,85,15,70,20,60,30,50,65,80,90,40,5,55};
