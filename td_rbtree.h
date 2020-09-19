@@ -19,6 +19,13 @@ public:
     void insert(int data_);
     void remove(int data_);
     void print() const{print(fake_root->right_chl);}
+    bool check()const
+    {
+        int number{};
+        if(fake_root->right_chl->color==Color::Black)
+            return check(fake_root->right_chl,number);
+        return false;
+    }
 private:
     enum class Color{Red,Black};
 
@@ -39,13 +46,13 @@ private:
 
     template<typename ...T>
     using BContainer=std::tuple<T * &...>;
-    using I_Container=BContainer<Node,Node,Node>;
+    using I_Container=BContainer<Node,Node,Node,Node>;
 
     void rotate_color_fix(I_Container c_);
 
     void insert(I_Container c,int data_);
 
-    using R_Container=I_Container;/*std::tuple<Node * &,Node * &,Node * &,bool>*/;
+    using R_Container=BContainer<Node,Node,Node>;/*std::tuple<Node * &,Node * &,Node * &,bool>*/;
 
     void remove(R_Container c,int data_);
 
@@ -54,6 +61,8 @@ private:
     constexpr Node * & find(Node * & root_);
 
     void print(Node * const & root_) const;
+
+    bool check(Node * const & root_,int & number_)const;
 };
 
 template<TD_RBtree::Which W>

@@ -13,6 +13,13 @@ public:
     void insert(int );
     void remove(int );
     void print() const;
+    bool check()const
+    {
+        int number{};
+        if(root->color==Color::Black)
+            return check(root,number);
+        return false;
+    }
 private:
     enum Color :int { Red, Black };
 
@@ -54,7 +61,7 @@ private:
         return child == child->parent->left ? child->parent->left
                                             : child->parent->right;
     }
-
+    bool check(Node<int> * const & root_,int & number_)const;
 };
 
 #endif // RBDATA_H

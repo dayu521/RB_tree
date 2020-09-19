@@ -268,6 +268,34 @@ BU_RBtree::Node<int> *BU_RBtree::findMinValueNode(const Node<int> *root)
     return const_cast<Node<int> *>(temp);
 }
 
+bool BU_RBtree::check(Node<int> * const &root_, int &number_) const
+{
+    if(root_!=NIL){
+        int ln,rn;
+        if(root_->color==Color::Red){
+             auto t=root_->left->color==Color::Black&&
+                    root_->right->color==Color::Black&&
+                    check(root_->left,ln)&&
+                    check(root_->right,rn)&&ln==rn;
+             if(t){
+                 number_=ln;
+                 return true;
+             }
+             return false;
+        }else{
+            auto t=check(root_->left,ln)&&
+                    check(root_->right,rn)&&ln==rn;
+            if(t){
+                number_=ln+1;
+                return true;
+            }
+            return false;
+        }
+    }
+    number_=0;
+    return true;
+}
+
 void BU_RBtree::print(Node<int> * const &root_) const
 {
     if(root_!=NIL){

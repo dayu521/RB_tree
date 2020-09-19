@@ -18,7 +18,7 @@ TD_RBtree::~TD_RBtree()
 
 void TD_RBtree::insert(int data_)
 {
-    insert({fake_root->right_chl,fake_root,null_node},data_);
+    insert({fake_root->right_chl,fake_root,null_node,null_node},data_);
     fake_root->right_chl->color=Color::Black;
 }
 
@@ -47,43 +47,49 @@ void TD_RBtree::rotate_with_right(TD_RBtree::Node *&root_)
 
 void TD_RBtree::rotate_color_fix(I_Container c_)
 {
-    auto &[x,xp,xpp]=c_;
-    if(xp->color==Color::Red){
-        if(xpp->left_chl==xp){
-            if(xp->left_chl!=x)
-                rotate_with_right(xp);
-            rotate_with_left(xpp);
-            xpp->color=Color::Black;
-            xpp->right_chl->color=Color::Red;
-        }else{
-            if(xp->right_chl!=x)
-                rotate_with_left(xp);
-            rotate_with_right(xpp);
-            xpp->color=Color::Black;
-            xpp->left_chl->color=Color::Red;
-        }
+    auto &[x,xp,xpp,xppp]=c_;
+    if(xpp->left_chl==xp){
+        if(xp->left_chl!=x)
+            rotate_with_right(xp);
+        rotate_with_left(xpp);
+        xpp->color=Color::Black;
+        xpp->right_chl->color=Color::Red;
+    }else{
+        if(xp->right_chl!=x)
+            rotate_with_left(xp);
+        rotate_with_right(xpp);
+        xpp->color=Color::Black;
+        xpp->left_chl->color=Color::Red;
     }
 }
 
 void TD_RBtree::insert(TD_RBtree::I_Container c_, int data_)
 {
-    auto &[x,xp,xpp]=c_;
-     if(x==null_node){
+    auto &[x,xp,xpp,xppp]=c_;
+    if(x==null_node){
         x=new Node{data_,null_node,null_node};
-        if(x!=fake_root->right_chl)
+        if(x!=fake_root->right_chl&&xp->color==Color::Red)
             rotate_color_fix(c_);
     }else{
         if(x->left_chl->color==Color::Red && x->right_chl->color==Color::Red){
             x!=fake_root->right_chl?x->color=Color::Red:x->color=Color::Black;
             x->left_chl->color=x->right_chl->color=Color::Black;
-            rotate_color_fix(c_);
+            if(xp->color==Color::Red){
+                rotate_color_fix(c_);
+                if(data_ < xpp->d){
+                    return insert({xpp->left_chl,xpp,xppp,null_node},data_);
+                }else if(data_ > xpp->d){
+                    return insert({xpp->right_chl,xpp,xppp,null_node},data_);
+                }else
+                    return ;
+            }
         }
         if(data_ < x->d){
-            insert({x->left_chl,x,xp},data_);
+            return insert({x->left_chl,x,xp,xpp},data_);
         }else if(data_ > x->d){
-            insert({x->right_chl,x,xp},data_);
+            return insert({x->right_chl,x,xp,xpp},data_);
         }else
-            ;
+            return ;
     }
 }
 
@@ -212,4 +218,32 @@ void TD_RBtree::print(Node * const &root_) const
         std::cout<<root_->d<<(root_->color==Color::Red?'r':'b')<<" ";
         print(root_->right_chl);
     }
+}
+
+bool TD_RBtree::check(TD_RBtree::Node * const &root_, int &number_) const
+{
+    if(root_!=null_node){
+        int ln,rn;
+        if(root_->color==Color::Red){
+             auto t=root_->left_chl->color==Color::Black&&
+                    root_->right_chl->color==Color::Black&&
+                    check(root_->left_chl,ln)&&
+                    check(root_->right_chl,rn)&&ln==rn;
+             if(t){
+                 number_=ln;
+                 return true;
+             }
+             return false;
+        }else{
+            auto t=check(root_->left_chl,ln)&&
+                    check(root_->right_chl,rn)&&ln==rn;
+            if(t){
+                number_=ln+1;
+                return true;
+            }
+            return false;
+        }
+    }
+    number_=0;
+    return true;
 }
