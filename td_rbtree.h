@@ -58,7 +58,7 @@ private:
 
     enum Which{Max,Min};
     template<Which W>
-    constexpr Node * & find(Node * & root_);
+    constexpr Node * find(Node * const & root_)const;
 
     void print(Node * const & root_) const;
 
@@ -66,9 +66,9 @@ private:
 };
 
 template<TD_RBtree::Which W>
-constexpr TD_RBtree::Node *&TD_RBtree::find(Node * & root_)
+constexpr TD_RBtree::Node *TD_RBtree::find(Node * const &root_) const
 {
-    auto & temp=root_;
+    auto temp=root_;
     //因为null_node的左右节点是自身，不用害怕没有左右节点
 //    if(temp==null_node)
 //        return temp;

@@ -110,13 +110,13 @@ void TD_RBtree::remove(R_Container c_, int data_)
                 x=null_node;
                 delete old;
             }else if(x->right_chl!=null_node){
-                auto & min=find<Min>(x->right_chl);
+                auto min=find<Min>(x->right_chl);
                 x->d=min->d;
-                remove({x->right_chl,x->left_chl,x},min->d);
+                remove({x->right_chl,x->left_chl,x},x->d);
             }else{
-                auto & max=find<Max>(x->left_chl);
+                auto max=find<Max>(x->left_chl);
                 x->d=max->d;
-                remove({x->left_chl,x->right_chl,x},max->d);
+                remove({x->left_chl,x->right_chl,x},x->d);
             }
         }
     }else if(x->left_chl->color==Color::Black&&x->right_chl->color==Color::Black){        //x有双黑孩子
@@ -160,13 +160,13 @@ void TD_RBtree::remove(R_Container c_, int data_)
                 x=null_node;
                 delete old;
             }else if(x->right_chl!=null_node){
-                auto & min=find<Min>(x->right_chl);
+                auto min=find<Min>(x->right_chl);
                 x->d=min->d;
-                remove({x->right_chl,x->left_chl,x},min->d);
+                remove({x->right_chl,x->left_chl,x},x->d);
             }else{
-                auto & max=find<Max>(x->left_chl);
+                auto max=find<Max>(x->left_chl);
                 x->d=max->d;
-                remove({x->left_chl,x->right_chl,x},max->d);
+                remove({x->left_chl,x->right_chl,x},x->d);
             }
         }
     }else {
@@ -199,13 +199,13 @@ void TD_RBtree::remove(R_Container c_, int data_)
             //            }else
             //下面的x子节点一定落到红节点，所以不用调整，直接推进到子节点
             if(x->right_chl!=null_node){
-                auto & min=find<Min>(x->right_chl);
+                auto min=find<Min>(x->right_chl);
                 x->d=min->d;
-                remove({x->right_chl,x->left_chl,x},min->d);
+                remove({x->right_chl,x->left_chl,x},x->d);
             }else{
-                auto & max=find<Max>(x->left_chl);
+                auto max=find<Max>(x->left_chl);
                 x->d=max->d;
-                remove({x->left_chl,x->right_chl,x},max->d);
+                remove({x->left_chl,x->right_chl,x},x->d);
             }
         }
     }
@@ -220,6 +220,7 @@ void TD_RBtree::print(Node * const &root_) const
     }
 }
 
+//这是个弱智方法吗？好像还不正确
 bool TD_RBtree::check(TD_RBtree::Node * const &root_, int &number_) const
 {
     if(root_!=null_node){
