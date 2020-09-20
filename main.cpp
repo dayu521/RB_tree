@@ -40,14 +40,16 @@ int main()
 //        tree.remove(65);
 //        tree.print();
 //        cout<<endl;
-//        if(tree.check())
-//            cout<<"合法"<<endl;
-//        else
-//            cout<<"不合法"<<endl;
+
+//        tree.recolor(3);
+        if(tree.check())
+            cout<<"合法"<<endl;
+        else
+            cout<<"不合法"<<endl;
         return {};
     };
     test(t1,a);//==test(t2,a);
-    test(t2,a);
+//    test(t2,a);
 
     return 0;
 }

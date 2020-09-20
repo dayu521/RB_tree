@@ -26,6 +26,7 @@ public:
             return check(fake_root->right_chl,number);
         return false;
     }
+    void recolor(int i=0);
 private:
     enum class Color{Red,Black};
 

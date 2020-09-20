@@ -29,6 +29,18 @@ void TD_RBtree::remove(int data_)
     fake_root->right_chl->color=Color::Black;
 }
 
+//把某些右路经染黑
+void TD_RBtree::recolor(int i)
+{
+    auto root=fake_root->right_chl;
+    i++;
+    while (i>0) {
+        root=root->right_chl;
+        root->color=Color::Red;
+        i--;
+    }
+}
+
 void TD_RBtree::rotate_with_left(TD_RBtree::Node *&root_)
 {
     Node * left=root_->left_chl;
@@ -123,7 +135,7 @@ void TD_RBtree::remove(R_Container c_, int data_)
         if(t->left_chl->color==Color::Black&&t->right_chl->color==Color::Black){        //t有双黑孩子
             x->color=Color::Red;
             t->color=Color::Red;
-            xp->color=null_node->color=Color::Black;
+            xp->color=null_node->color=fake_root->right_chl->color=Color::Black;
         }else if(xp->right_chl==t){
             if(t->right_chl->color==Color::Black){
                 rotate_with_left(t);
@@ -133,6 +145,7 @@ void TD_RBtree::remove(R_Container c_, int data_)
             }else{
                 rotate_with_right(xp);
                 xp->color=Color::Red;
+                fake_root->right_chl->color=Color::Black;
                 xp->left_chl->color=xp->right_chl->color=Color::Black;
                 x->color=Color::Red;
             }
@@ -145,6 +158,7 @@ void TD_RBtree::remove(R_Container c_, int data_)
             }else{
                 rotate_with_left(xp);
                 xp->color=Color::Red;
+                fake_root->right_chl->color=Color::Black;
                 xp->left_chl->color=xp->right_chl->color=Color::Black;
                 x->color=Color::Red;
             }
@@ -221,6 +235,8 @@ void TD_RBtree::print(Node * const &root_) const
 }
 
 //这是个弱智方法吗？好像还不正确
+//检查各个路径黑节点是否相等，以及是否有连续红节点，但没有检查是否满足二叉查找树性质
+//根节点的检测在包装函数中
 bool TD_RBtree::check(TD_RBtree::Node * const &root_, int &number_) const
 {
     if(root_!=null_node){
