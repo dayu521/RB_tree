@@ -154,7 +154,7 @@ void TD_RBtree::remove(R_Container c_, int data_)
                 rotate_with_right(t);
                 rotate_with_left(xp);
                 x->color=Color::Red;
-                xp->left_chl->color=Color::Black;
+                xp->right_chl->color=Color::Black;
             }else{
                 rotate_with_left(xp);
                 xp->color=Color::Red;
