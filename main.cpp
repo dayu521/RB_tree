@@ -17,8 +17,6 @@ using namespace std;
 int main()
 {
     BTree b;
-    //直到31是正确的
-    //key的数量为1不代表就有两个孩子
     int a[]{2,8,3,66,28,94,31,51,90,0,38,71};
     for(auto i:a){
         if(b.insert(i))

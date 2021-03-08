@@ -13,4 +13,5 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(${PROJECT_NAME} main.cpp
                         btree.cpp
                         bu_rbtree.cpp
-                        td_rbtree.cpp)
+                        td_rbtree.cpp
+                        treehelper.cpp)

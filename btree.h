@@ -13,7 +13,7 @@ public:
     BTree();
     ~BTree();
     auto insert(int data)->bool;
-    decltype(auto) remove(int data){return remove(root_,data);}
+    bool remove(int data){return remove(root_,data);}
     void print()const
     {
         if(root_->n_of_key>0)
@@ -50,14 +50,21 @@ public:
     BNode<> * root_{nullptr};
     using BNodePointer=decltype (root_);
 
-//private:
-public:
+private:
+//public:
     void print(BNodePointer sub_root)const;
     bool insert(BNodePointer & sub_root, int data);
     bool remove(BNodePointer & sub_root,int data_);
     void dealloc_tree(BNodePointer & sub_root);
     void split(BNodePointer sr,int child_idx);
     unsigned int find_index(BNodePointer sub_root,int data);
+
+    //for remove
+private:
+    int key_idx(BNodePointer node_,int data_) const;
+    void key_remove(BNodePointer node_,int idx_);
+    void child_remove(BNodePointer node_,int idx_);
+    void coalesce_node(BNodePointer parent_node_,int idx_);
 public:
     template<int N=BNodeTrait<>::n_of_keys>
     inline void write_repeat_print(const BNodePointer & sub_root)const

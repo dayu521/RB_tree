@@ -22,7 +22,7 @@ auto BTree::insert(int data)->bool
     return insert(root_,data);
 }
 
-//sub_root拥有的key大于0
+//假设sub_root拥有的key大于0
 void BTree::print(BNodePointer sub_root) const
 {
     using std::cout,std::endl;
@@ -125,4 +125,78 @@ unsigned int BTree::find_index(BTree::BNodePointer sub_root, int data)
         return i;
     return i;
 }
+
+
+bool BTree::remove(BTree::BNodePointer &sub_root, int data_)
+{
+    auto key_id=key_idx(sub_root,data_);
+    if(key_id==-1){//不在当前节点
+        if(sub_root->is_leaf)
+            return true;
+    }else{//在当前节点
+        if(sub_root->is_leaf){
+            key_remove(sub_root,key_id);
+            return true;
+        }else{
+            if((sub_root->child_[key_id]->n_of_key==BNodeTrait<>::DEGREE-1)&&
+                    (sub_root->child_[key_id]->n_of_key==BNodeTrait<>::DEGREE-1)){
+
+            }
+
+        }
+    }
+}
+
+int BTree::key_idx(BNodePointer node_,int data_) const
+{
+    auto j=-1,i=0;
+    while (i<node_->n_of_key) {
+        if(data_!=node_->v_[i]){
+            i++;
+            continue;
+        }
+        j=i;
+        break;
+    }
+    return j;
+}
+
+void BTree::key_remove(BNodePointer node_,int idx)
+{
+    auto last_index=node_->n_of_key-1;
+    auto i=idx;
+    while (i<last_index) {
+        node_->v_[i]=node_->v_[i+1];
+        i++;
+    }
+    node_->n_of_key--;
+}
+void BTree::child_remove(BNodePointer node_, int idx_)
+{
+    auto last_index=node_->n_of_key;
+    auto i=idx_;
+    while (i<last_index) {
+        node_->child_[i]=node_->child_[i+1];
+        i++;
+    }
+}
+
+void BTree::coalesce_node(BNodePointer parent_node_, int key_idx_)
+{
+    auto left=parent_node_->child_[key_idx_];
+    auto right=parent_node_->child_[key_idx_+1];
+    auto mid_val=parent_node_->v_[key_idx_];
+    //先处理父节点
+    key_remove(parent_node_,key_idx_);
+    child_remove(parent_node_,key_idx_+1);
+    //处理当前节点
+    left->v_[BNodeTrait<>::DEGREE-1]=mid_val;
+    auto i=0;
+    while (i<BNodeTrait<>::DEGREE) {
+        left->v_[BNodeTrait<>::DEGREE+i]=right->v_[i];
+        i++;
+        /*********to do*****/
+    }
+}
+
 
