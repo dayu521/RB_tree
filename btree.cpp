@@ -22,22 +22,22 @@ auto BTree::insert(int data)->bool
     return insert(root_,data);
 }
 
-void BTree::print(BTree::BNodePointer sub_root) const
+//sub_root拥有的key大于0
+void BTree::print(BNodePointer sub_root) const
 {
     using std::cout,std::endl;
-    if(sub_root->n_of_key>0){
-        if(!sub_root->is_leaf){
-            auto i=0u;
-            for(;i<sub_root->n_of_key;i++){
-                print(sub_root->child_[i]);
-                cout<<sub_root->v_[i]<<" ";
-            }
+
+    if(!sub_root->is_leaf){
+        auto i=0u;
+        for(;i<sub_root->n_of_key;i++){
             print(sub_root->child_[i]);
-        }else {
-            auto i=0u;
-            for(;i<sub_root->n_of_key;i++)
-                cout<<sub_root->v_[i]<<" ";
+            cout<<sub_root->v_[i]<<" ";
         }
+        print(sub_root->child_[i]);
+    }else {
+        auto i=0u;
+        for(;i<sub_root->n_of_key;i++)
+            cout<<sub_root->v_[i]<<" ";
     }
 }
 //暂时不处理相等键情况，默认都插入

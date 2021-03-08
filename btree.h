@@ -14,7 +14,11 @@ public:
     ~BTree();
     auto insert(int data)->bool;
     decltype(auto) remove(int data){return remove(root_,data);}
-    decltype(auto) print()const{return print(root_);}
+    void print()const
+    {
+        if(root_->n_of_key>0)
+            return print(root_);
+    }
 public:
     static void test_find_indx()
     {
