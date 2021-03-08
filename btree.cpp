@@ -25,15 +25,19 @@ auto BTree::insert(int data)->bool
 void BTree::print(BTree::BNodePointer sub_root) const
 {
     using std::cout,std::endl;
-    if(sub_root!=BNodeTrait<>::Null){
-//        print(sub_root->child_[0]);
-//        cout<<sub_root->v_[0]<<" ";
-//        print(sub_root->child_[1]);
-//        cout<<sub_root->v_[1]<<" ";
-//        print(sub_root->child_[2]);
-//        cout<<sub_root->v_[2]<<" ";
-//        print(sub_root->child_[3]);
-        write_repeat_print(sub_root);
+    if(sub_root->n_of_key>0){
+        if(!sub_root->is_leaf){
+            auto i=0u;
+            for(;i<sub_root->n_of_key;i++){
+                print(sub_root->child_[i]);
+                cout<<sub_root->v_[i]<<" ";
+            }
+            print(sub_root->child_[i]);
+        }else {
+            auto i=0u;
+            for(;i<sub_root->n_of_key;i++)
+                cout<<sub_root->v_[i]<<" ";
+        }
     }
 }
 //暂时不处理相等键情况，默认都插入
