@@ -7,6 +7,7 @@ namespace  {
 inline constexpr int DEGREE=2;
 }
 
+//impletement three functions,insert(),remove() and print() only
 class BTree
 {
 public:
@@ -24,7 +25,7 @@ public:
     {
         BNodePointer b=new BNode<>{.v_{4,8,12},.n_of_key=3};
         BNodePointer nb=new BNode<>{.n_of_key=0,.child_{b}};
-        BTree().split(nb,0);
+        BTree().split_full_child(nb,0);
     }
 public:
     //节点的key的数量为k,代表就有k+1个孩子.
@@ -51,13 +52,12 @@ public:
     using BNodePointer=decltype (root_);
 
 private:
-//public:
     void print(BNodePointer sub_root)const;
     bool insert(BNodePointer & sub_root, int data);
     bool remove(BNodePointer & sub_root,int data_);
-    void dealloc_tree(BNodePointer & sub_root);
-    void split(BNodePointer sr,int child_idx);
-    unsigned int find_index(BNodePointer sub_root,int data);
+    void dealloc_tree(BNodePointer & sub_root); //incorrect!
+    void split_full_child(BNodePointer sub_root,int child_idx);
+    unsigned int find_child_index(BNodePointer sub_root,int data);
 
     //for remove
 private:
@@ -67,6 +67,7 @@ private:
     void coalesce_node(BNodePointer parent_node_,int idx_);
     int find_min(BNodePointer sub_root)const;
     int find_max(BNodePointer sub_root)const;
+//It's useless for the time!
 public:
     template<int N=BNodeTrait<>::n_of_keys>
     inline void write_repeat_print(const BNodePointer & sub_root)const

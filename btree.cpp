@@ -17,7 +17,7 @@ auto BTree::insert(int data)->bool
         auto new_root=new BNode{};
         new_root->child_[0]=root_;
         root_=new_root;
-        split(new_root,0);//当前root只有一个左子树，且没有key
+        split_full_child(new_root,0);//当前root只有一个左子树，且没有key
     }
     return insert(root_,data);
 }
@@ -43,7 +43,7 @@ void BTree::print(BNodePointer sub_root) const
 //暂时不处理相等键情况，默认都插入
 bool BTree::insert(BTree::BNodePointer &sub_root, int data)
 {
-    auto i=find_index(sub_root,data);
+    auto i=find_child_index(sub_root,data);
     if(sub_root->is_leaf){
         if(data==sub_root->v_[i])
             return false;
@@ -57,13 +57,14 @@ bool BTree::insert(BTree::BNodePointer &sub_root, int data)
         return true;
     }
     if(sub_root->child_[i]->n_of_key==BNodeTrait<>::n_of_keys){
-        split(sub_root,i);
+        split_full_child(sub_root,i);
         if(sub_root->v_[i]<data)
             i++;
     }
     return insert(sub_root->child_[i],data);
 }
 
+//incorrect!
 void BTree::dealloc_tree(BTree::BNodePointer &sub_root)
 {
     if(sub_root!=BNodeTrait<>::Null){
@@ -77,9 +78,9 @@ void BTree::dealloc_tree(BTree::BNodePointer &sub_root)
     }
 }
 
-void BTree::split(BTree::BNodePointer sr, int child_idx)
+void BTree::split_full_child(BNodePointer sub_root, int child_idx)
 {
-    auto x=sr;
+    auto x=sub_root;
     auto y=x->child_[child_idx];//The node to be split
     auto z=new BNode<>{.n_of_key=BNodeTrait<>::DEGREE-1,.is_leaf=y->is_leaf};//The new right node
     //Deal with node z first
@@ -115,7 +116,7 @@ void BTree::split(BTree::BNodePointer sr, int child_idx)
 
 //we don't call this function when sub_root is full
 //return proper index of child node
-unsigned int BTree::find_index(BTree::BNodePointer sub_root, int data)
+unsigned int BTree::find_child_index(BTree::BNodePointer sub_root, int data)
 {
     auto i=0u;
     while (i<sub_root->n_of_key&&sub_root->v_[i]<data) {
