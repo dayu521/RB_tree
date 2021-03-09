@@ -65,6 +65,8 @@ private:
     void key_remove(BNodePointer node_,int idx_);
     void child_remove(BNodePointer node_,int idx_);
     void coalesce_node(BNodePointer parent_node_,int idx_);
+    int find_min(BNodePointer sub_root)const;
+    int find_max(BNodePointer sub_root)const;
 public:
     template<int N=BNodeTrait<>::n_of_keys>
     inline void write_repeat_print(const BNodePointer & sub_root)const

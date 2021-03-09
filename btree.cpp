@@ -192,11 +192,34 @@ void BTree::coalesce_node(BNodePointer parent_node_, int key_idx_)
     //处理当前节点
     left->v_[BNodeTrait<>::DEGREE-1]=mid_val;
     auto i=0;
-    while (i<BNodeTrait<>::DEGREE) {
+    while (i<BNodeTrait<>::DEGREE-1) {
         left->v_[BNodeTrait<>::DEGREE+i]=right->v_[i];
         i++;
-        /*********to do*****/
     }
+    i=0;
+    while (i<BNodeTrait<>::DEGREE) {
+        left->child_[i+BNodeTrait<>::DEGREE]=right->child_[i];
+    }
+    left->n_of_key=2*BNodeTrait<>::DEGREE-1;
+    delete right;
 }
 
 
+
+int BTree::find_min(BNodePointer sub_root) const
+{
+    auto i=sub_root;
+    while (!i->is_leaf) {
+        i=i->child_[0];//所有节点必有关键字，访问第一个关键字是安全的
+    }
+    return i->v_[0];
+}
+
+int BTree::find_max(BNodePointer sub_root) const
+{
+    auto i=sub_root;
+    while (!i->is_leaf) {
+        i=i->child_[i->n_of_key-1];
+    }
+    return i->v_[0];
+}
