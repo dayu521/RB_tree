@@ -282,7 +282,7 @@ void BTree::child_remove_on(BNodePointer node_, int idx_)
     }
 }
 
-//The key_idx is between left node and right node
+//The key_idx must be between left node and right node
 void BTree::coalesce_node(BNodePointer parent_node_, int key_idx_)
 {
     auto left=parent_node_->child_[key_idx_];
@@ -291,6 +291,7 @@ void BTree::coalesce_node(BNodePointer parent_node_, int key_idx_)
     //先处理父节点
     key_remove_on(parent_node_,key_idx_);
     child_remove_on(parent_node_,key_idx_+1);
+    parent_node_->n_of_key--;
     //处理当前节点
     left->v_[BNodeTrait<>::DEGREE-1]=mid_val;
     auto i=0;

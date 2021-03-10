@@ -2,7 +2,7 @@
 #define BTREE_H
 #include <iostream>
 
-namespace  {
+namespace  BN{
 //Degree,we can think of it as the least half of child node
 inline constexpr int DEGREE=2;
 }
@@ -18,6 +18,7 @@ inline constexpr int DEGREE=2;
 
 //impletement three functions,insert(),remove() and print() only
 //这个实现倾向条理清晰，但没有效率
+//未知任何问题!!!
 class BTree
 {
 public:
@@ -31,15 +32,8 @@ public:
             return print(root_);
     }
 public:
-    static void test_find_indx()
-    {
-        BNodePointer b=new BNode<>{.v_{4,8,12},.n_of_key=3};
-        BNodePointer nb=new BNode<>{.n_of_key=0,.child_{b}};
-        BTree().split_full_child(nb,0);
-    }
-public:
     //节点的key的数量为k,代表就有k+1个孩子.
-    template<int N=DEGREE>
+    template<int N=BN::DEGREE>
     struct BNode
     {
         int v_[2*N-1]{0};       //array for keys
