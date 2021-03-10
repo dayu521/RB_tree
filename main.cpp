@@ -14,16 +14,11 @@
 #include "btree.h"
 using namespace std;
 
+void test_btree();
+
 int main()
 {
-    BTree b;
-    int a[]{2,8,3,66,28,94,31,51,90,0,38,71};
-    for(auto i:a){
-        if(b.insert(i))
-            continue;
-        break;
-    }
-    b.print();
+    test_btree();
     return 0;
 }
 
@@ -63,4 +58,19 @@ void test_rbtree()
     };
     test(t1,a);//==test(t2,a);
 //    test(t2,a);
+}
+void test_btree()
+{
+    BTree b;
+    int a[]{2,8,3,66,28,94,31,51,90,0,38,71};
+    for(auto i:a){
+        if(b.insert(i))
+            continue;
+        break;
+    }
+    b.print();
+    cout<<endl;
+    b.remove(0);
+    b.print();
+    cout<<endl;
 }

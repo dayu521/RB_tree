@@ -6,6 +6,15 @@ namespace  {
 //Degree,we can think of it as the least half of child node
 inline constexpr int DEGREE=2;
 }
+/*btree node structure
+ *     k0  k1  k2  k3  k4
+ *   c0  c1  c2  c3  c4  c5
+ * key索引总对应它之前的child索引
+ * 总key=DEGREE*2-1
+ * 总child=DEGREE*2
+ * key以非降序排列
+ * 一个key必定只能处于两个child之间，但不是每个child都处于两个key之间(可以看到，c0和c5是列外情况)
+ */
 
 //impletement three functions,insert(),remove() and print() only
 class BTree
@@ -14,7 +23,7 @@ public:
     BTree();
     ~BTree();
     auto insert(int data)->bool;
-    bool remove(int data){return remove(root_,data);}
+    bool remove(int data);
     void print()const
     {
         if(root_->n_of_key>0)
@@ -32,10 +41,10 @@ public:
     template<int N=DEGREE>
     struct BNode
     {
-        int v_[2*N-1]{0};
-        unsigned char n_of_key{0};
+        int v_[2*N-1]{0};       //array for keys
+        unsigned char n_of_key{0};  //key sizes
         bool is_leaf{false};
-        BNode * child_[2*N]{nullptr};
+        BNode * child_[2*N]{nullptr};   //array for child
         static constexpr auto  DEGREE=N;
         static constexpr auto  extent_v=std::extent_v<decltype (v_)>;
     };
@@ -58,12 +67,15 @@ private:
     void dealloc_tree(BNodePointer & sub_root); //incorrect!
     void split_full_child(BNodePointer sub_root,int child_idx);
     unsigned int find_child_index(BNodePointer sub_root,int data);
+//    void key_insert(BNodePointer sub_root,idx);
+    void key_insert_on(BNodePointer sub_root,int idx,int data);
 
     //for remove
 private:
     int key_idx(BNodePointer node_,int data_) const;
-    void key_remove(BNodePointer node_,int idx_);
-    void child_remove(BNodePointer node_,int idx_);
+    void key_remove_on(BNodePointer node_,int idx_);
+    void child_remove_on(BNodePointer node_,int idx_);
+    //合并idx_左右两个孩子
     void coalesce_node(BNodePointer parent_node_,int idx_);
     int find_min(BNodePointer sub_root)const;
     int find_max(BNodePointer sub_root)const;
