@@ -24,7 +24,16 @@ auto BTree::insert(int data)->bool
 
 bool BTree::remove(int data)
 {
-    /****TODO:合并root_时需要改变root_ */
+    //Coalesce root_ first,if necessary
+    if(key_idx(root_,data)==-1&&
+            root_->n_of_key==1&&
+            root_->child_[0]->n_of_key==BNodeTrait<>::DEGREE-1&&
+            root_->child_[1]->n_of_key==BNodeTrait<>::DEGREE-1){
+        auto new_root=root_->child_[0];
+        coalesce_node(root_,0);
+        delete root_;
+        root_=new_root;
+    }
     return remove(root_,data);
 }
 
@@ -229,11 +238,11 @@ bool BTree::remove(BTree::BNodePointer &sub_root, int data_)
             }else if(left_child->n_of_key>BNodeTrait<>::DEGREE-1){
                 auto max=find_max(left_child);
                 sub_root->v_[key_id]=max;
-                return remove(left_child,data_);
+                return remove(left_child,max);
             }else{
                 auto min=find_max(right_child);
                 sub_root->v_[key_id]=min;
-                return remove(right_child,data_);
+                return remove(right_child,min);
             }
         }
     }

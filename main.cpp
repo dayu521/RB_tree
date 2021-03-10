@@ -70,7 +70,7 @@ void test_btree()
     }
     b.print();
     cout<<endl;
-    b.remove(0);
+    b.remove(94);
     b.print();
     cout<<endl;
 }

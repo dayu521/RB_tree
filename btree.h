@@ -17,6 +17,7 @@ inline constexpr int DEGREE=2;
  */
 
 //impletement three functions,insert(),remove() and print() only
+//这个实现倾向条理清晰，但没有效率
 class BTree
 {
 public:
