@@ -8,7 +8,9 @@ BTree::BTree()
 
 BTree::~BTree()
 {
-//    dealloc_tree(root_);
+    std::cout<<"释放节点"<<std::endl;
+    dealloc_tree(root_);
+    std::cout<<std::endl;
 }
 
 auto BTree::insert(int data)->bool
@@ -76,12 +78,21 @@ bool BTree::insert(BTree::BNodePointer &sub_root, int data)
 //incorrect!
 void BTree::dealloc_tree(BTree::BNodePointer &sub_root)
 {
-    if(sub_root!=BNodeTrait<>::Null){
-//        dealloc_tree(sub_root->child_[0]);
-//        dealloc_tree(sub_root->child_[1]);
-//        dealloc_tree(sub_root->child_[2]);
-//        dealloc_tree(sub_root->child_[3]);
-        write_repeat_call(sub_root->child_);
+    if(sub_root->is_leaf){
+        std::cout<<"删除叶子:";
+        for(int i=0;i<sub_root->n_of_key;i++)
+            std::cout<<sub_root->v_[i]<<" ";
+        std::cout<<std::endl;
+        delete sub_root;
+        sub_root=BNodeTrait<>::Null;
+    }else {
+        for(int i=0;i<=sub_root->n_of_key;i++){
+            dealloc_tree(sub_root->child_[i]);
+        }
+        std::cout<<"删除孩子:";
+        for(int i=0;i<sub_root->n_of_key;i++)
+            std::cout<<sub_root->v_[i]<<" ";
+        std::cout<<std::endl;
         delete sub_root;
         sub_root=BNodeTrait<>::Null;
     }

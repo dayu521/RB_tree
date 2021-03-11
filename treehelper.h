@@ -25,4 +25,65 @@ void print_m(NodeType sub_root)
     }
 }
 
+//试验用的玩具- -
+namespace Fake {
+
+    struct Node
+    {
+        Node * left_;
+        Node * right_;
+        int a_;
+    };
+
+    enum Which{Min,Max};
+
+    template<Which W,typename T=Node>
+    struct Fx;
+
+    template<>
+    struct Fx<Min>
+    {
+        static auto next(Node * n)
+        {
+            return n->left_;
+        }
+    };
+
+    template<>
+    struct Fx<Max>
+    {
+        static auto next(Node * n)
+        {
+            return n->right_;
+        }
+    };
+
+    template<Which W>
+    auto next(auto n);
+
+    template<>
+    inline auto next<Min>(Node * n)
+    {
+        return n->left_;
+    }
+    template<>
+    inline auto next<Max>(Node * n)
+    {
+        return n->right_;
+    }
+
+    template<Which W>
+    inline Node * h()
+    {
+        Node * temp;
+        while (next<W>(temp)!=nullptr)
+            temp=next<W>(temp);
+        return temp;
+    }
+
+//    auto min=h<Min>();
+//    auto max=h<Max>();
+}
+
 #endif // TREEHELPER_H
+

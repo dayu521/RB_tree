@@ -15,10 +15,12 @@
 using namespace std;
 
 void test_btree();
+void test_rbtree();
 
 int main()
 {
     test_btree();
+//    test_rbtree();
     return 0;
 }
 
@@ -70,7 +72,10 @@ void test_btree()
     }
     b.print();
     cout<<endl;
-    b.remove(94);
-    b.print();
-    cout<<endl;
+//    b.remove(94);
+    for (auto i:{2,66,28}){
+        b.remove(i);
+        b.print();
+        cout<<endl;
+    }
 }
