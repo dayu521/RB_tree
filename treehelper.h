@@ -2,6 +2,7 @@
 #define TREEHELPER_H
 #include <iostream>
 #include <stack>
+#include <type_traits>
 
 template<typename NodeType>
 void print_m(NodeType sub_root)
@@ -83,6 +84,32 @@ namespace Fake {
 
 //    auto min=h<Min>();
 //    auto max=h<Max>();
+
+    template<typename Input>
+    struct In;
+
+    template<>
+    struct In<std::input_iterator_tag>{};
+
+    template<typename Out>
+    struct Ou;
+
+    template<>
+    struct Ou<std::output_iterator_tag>{};
+
+    template<typename T,typename =Ou<T>>
+    void fuckT(T t);
+
+    template<typename T>
+    struct Bs
+    {
+        T * a;
+    };
+
+    struct Db:Bs<Db>
+    {
+
+    };
 }
 
 #endif // TREEHELPER_H

@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <functional>
 
-//#include <loki/Visitor.h>
+//#include <loki/Functor.h>
 
 //#include <thread>
 //#include<signal.h>
@@ -17,10 +18,37 @@ using namespace std;
 void test_btree();
 void test_rbtree();
 
+class Sx
+{
+public:
+    virtual void fuck(){cout<<"Sx:fuck you baby!"<<endl;}
+    void fuck(int ){}
+    void print_a() const{cout<<"a:"<<a<<endl;}
+    int a=3;
+};
+
+class Sxx:public Sx
+{
+public:
+    void fuck(){cout<<"Sxx:fuck you baby!"<<endl;}
+};
+
+template<typename F>
+struct LL;
+
+template<typename F>
+struct LL<F ()>
+{
+
+};
+LL<int (*)()> ln={};
+
 int main()
 {
-    test_btree();
+//    test_btree();
 //    test_rbtree();
+    Sxx *s;
+//    s->fuck(5);
     return 0;
 }
 

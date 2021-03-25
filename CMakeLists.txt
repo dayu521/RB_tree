@@ -14,4 +14,6 @@ add_executable(${PROJECT_NAME} main.cpp
                         btree.cpp
                         bu_rbtree.cpp
                         td_rbtree.cpp
-                        treehelper.cpp)
+                        treehelper.cpp
+                        determin_skip_list.cpp
+                        trie.cpp)
